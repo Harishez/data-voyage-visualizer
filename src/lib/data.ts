@@ -1,5 +1,4 @@
-
-import { DataResponse, CustomProperties, Condition, ComparisonGroup, DataItem } from './types';
+import { DataResponse, CustomProperties, Condition, ComparisonGroup, DataItem, ComparisonOperator } from './types';
 
 // Sample data as provided in the prompt
 export const sampleData: DataResponse = {
@@ -115,15 +114,17 @@ export const filterDataByConditions = (data: DataItem[], conditions: Condition[]
         case 'eq': 
           if (typeof value === 'boolean' && typeof condition.value === 'boolean') {
             return value === condition.value;
-          } else {
+          } else if (typeof value === 'number') {
             return value === Number(condition.value);
           }
+          return value === condition.value;
         case 'neq': 
           if (typeof value === 'boolean' && typeof condition.value === 'boolean') {
             return value !== condition.value;
-          } else {
+          } else if (typeof value === 'number') {
             return value !== Number(condition.value);
           }
+          return value !== condition.value;
         default: return true;
       }
     });

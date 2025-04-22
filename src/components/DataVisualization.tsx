@@ -75,32 +75,51 @@ const DataVisualization = ({
   }
   
   if (viewType === 'chart') {
-    const ChartComponent = chartType === 'bar' ? BarChart : LineChart;
-    const DataComponent = chartType === 'bar' ? Bar : Line;
-    
     return (
       <div className="h-[400px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <ChartComponent
-            data={data}
-            margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            {metrics.map((metric, index) => (
-              <DataComponent
-                key={metric.id}
-                type="monotone"
-                dataKey={metric.field}
-                name={getPropertyLabel(metric.field)}
-                stroke={colors[index % colors.length]}
-                fill={colors[index % colors.length]}
-              />
-            ))}
-          </ChartComponent>
+          {chartType === 'bar' ? (
+            <BarChart
+              data={data}
+              margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              {metrics.map((metric, index) => (
+                <Bar
+                  key={metric.id}
+                  type="monotone"
+                  dataKey={metric.field}
+                  name={getPropertyLabel(metric.field)}
+                  stroke={colors[index % colors.length]}
+                  fill={colors[index % colors.length]}
+                />
+              ))}
+            </BarChart>
+          ) : (
+            <LineChart
+              data={data}
+              margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              {metrics.map((metric, index) => (
+                <Line
+                  key={metric.id}
+                  type="monotone"
+                  dataKey={metric.field}
+                  name={getPropertyLabel(metric.field)}
+                  stroke={colors[index % colors.length]}
+                />
+              ))}
+            </LineChart>
+          )}
         </ResponsiveContainer>
       </div>
     );
